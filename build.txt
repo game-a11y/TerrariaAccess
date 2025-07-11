@@ -1,0 +1,3 @@
+displayName = Accessibility mod
+author = inkydragon
+version = 0.1
