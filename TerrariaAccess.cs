@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Terraria;
+using Terraria.GameContent.UI.Elements;
+using Terraria.GameContent.UI.States;
 using Terraria.ModLoader;
 using Terraria.ModLoader.UI;
 using Terraria.UI;
@@ -40,6 +42,12 @@ namespace TerrariaAccess
 
         private static void UIElement_MouseOverHook(On_UIElement.orig_MouseOver orig, UIElement self, UIMouseEvent evt)
         {
+            if (self is UIToggleImage uiObj)
+            {
+                // UIToggleImage
+                UIToggleImage_MouseOverHook(uiObj, evt);
+            }
+        
             /**
              * 使用反射检查对象是否有 .Text 属性
              * 
@@ -56,5 +64,19 @@ namespace TerrariaAccess
             orig(self, evt);
         }
 
+        /**
+         * - 主菜单》成就》【成就分类】
+         *      分类的提示文字在 this.Draw 中生成
+         *      Language.GetTextValue("Achievements.NoCategory");
+         */
+        private static void UIToggleImage_MouseOverHook(UIToggleImage self, UIMouseEvent evt)
+        {
+            var typeName = self.GetType().Name;
+            var a11yText = "";
+            var isOn = self.IsOn ? "On" : "Off";
+            var metaInfo = self.GetHashCode();
+            // TODO: 获取提示文字
+            Logger.Debug($"{typeName}({a11yText}): {isOn}, #{metaInfo}");
+        }
     }
 }
