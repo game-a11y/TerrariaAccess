@@ -1,9 +1,4 @@
 using log4net;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.GameContent.UI.Elements;
 using Terraria.GameContent.UI.States;
@@ -42,12 +37,15 @@ namespace TerrariaAccess
 
         private static void UIElement_MouseOverHook(On_UIElement.orig_MouseOver orig, UIElement self, UIMouseEvent evt)
         {
-            if (self is UIToggleImage uiObj)
+            // 根据 self 的类型进行分派
+            switch (self)
             {
-                // UIToggleImage
-                UIToggleImage_MouseOverHook(uiObj, evt);
+                case UIToggleImage obj: UIToggleImage_MouseOverHook(obj, evt); break;
+                case UIAchievementListItem obj: UIAchievementListItem_MouseOver(obj, evt); break;
+                default:
+                    break;
             }
-        
+
             /**
              * 使用反射检查对象是否有 .Text 属性
              * 
@@ -77,6 +75,26 @@ namespace TerrariaAccess
             var metaInfo = self.GetHashCode();
             // TODO: 获取提示文字
             Logger.Debug($"{typeName}({a11yText}): {isOn}, #{metaInfo}");
+        }
+        /**
+         * 主菜单》成就》【成就列表项】
+         *  - 成就图标 `_achievementIcon`
+         *  - 是否完成 `achievement.IsCompleted`
+         *  - 分类图标 `achievement.Category`
+         *  - 成就名称 `achievement.FriendlyName`
+         *  - 成就说明 `achievement.Description`
+         */
+        private static void UIAchievementListItem_MouseOver(UIAchievementListItem self, UIMouseEvent evt)
+        {
+            var typeName = self.GetType().Name;
+            var Achievement = self.GetAchievement();
+            var IsCompleted = Achievement.IsCompleted ? "Completed" : "Not Completed";
+            // TODO: 图标描述
+            var a11yText = 
+                $"{Achievement.Category}" +
+                $", {Achievement.FriendlyName}, {Achievement.Description}" +
+                $" ({IsCompleted})";
+            Logger.Debug($"{typeName}: {a11yText}");
         }
     }
 }
