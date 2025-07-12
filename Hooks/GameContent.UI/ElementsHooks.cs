@@ -61,4 +61,22 @@ public class ElementsHooks : Hook
     {
         LogObject(self);
     }
+
+    public static void UIColoredImageButton_MouseOver(On_UIColoredImageButton.orig_MouseOver orig,
+        UIColoredImageButton self, UIMouseEvent evt)
+    {
+        LogObject(self);
+    }
+
+    public static void UIDifficultyButton_MouseOver(On_UIDifficultyButton.orig_MouseOver orig,
+        UIDifficultyButton self, UIMouseEvent evt)
+    {
+        LogObject(self);
+    }
+
+    public static void UIImageButton_MouseOver(On_UIImageButton.orig_MouseOver orig,
+        UIImageButton self, UIMouseEvent evt)
+    {
+        LogObject(self);
+    }
 }

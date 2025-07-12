@@ -28,7 +28,10 @@ public class UIHookMod : ModSystem
          * UIElement >>
          *      EmoteButton,
          *      ??GroupOptionButton<T>,
-         *      UICharacterNameButton, UIClothStyleButton，
+         *      UICharacterNameButton, UIClothStyleButton，UIColoredImageButton,
+         *      UIImageButton,
+         * UIElement >> UIImageButton >>
+         *      
          * UIElement >> UIPanel >>
          *      UIAchievementListItem, UICharacterListItem,
          */
@@ -39,6 +42,9 @@ public class UIHookMod : ModSystem
         On_UICharacterListItem.MouseOver += ElementsHooks.UICharacterListItem_MouseOver;
         On_UICharacterNameButton.MouseOver += ElementsHooks.UICharacterNameButton_MouseOver;
         On_UIClothStyleButton.MouseOver += ElementsHooks.UIClothStyleButton_MouseOver;
+        On_UIColoredImageButton.MouseOver += ElementsHooks.UIColoredImageButton_MouseOver;
+        On_UIDifficultyButton.MouseOver += ElementsHooks.UIDifficultyButton_MouseOver;
+        On_UIImageButton.MouseOver += ElementsHooks.UIImageButton_MouseOver;
 
         /* Terraria */
         On_IngameOptions.MouseOver += TerrariaHooks.IngameOptions_MouseOver;
