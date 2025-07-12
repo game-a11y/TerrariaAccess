@@ -15,4 +15,15 @@ public partial class Hook
     /// </summary>
     public static ILog Logger = LogManager.GetLogger("TerrariaAccess.Hooks");
 
+    public static void LogObject(object obj)
+    {
+        if (obj == null)
+        {
+            return;
+        }
+
+        var typeName = obj.GetType().Name;
+        var hashCode = obj.GetHashCode();
+        Logger.Debug($"{typeName}: {hashCode}");
+    }
 }

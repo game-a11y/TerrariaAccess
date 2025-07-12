@@ -43,4 +43,22 @@ public class ElementsHooks : Hook
             $" ({IsCompleted})";
         Logger.Debug($"{typeName}: {a11yText}");
     }
+
+    public static void UICharacterListItem_MouseOver(On_UICharacterListItem.orig_MouseOver orig,
+        UICharacterListItem self, UIMouseEvent evt)
+    {
+        LogObject(self);
+    }
+
+    public static void UICharacterNameButton_MouseOver(On_UICharacterNameButton.orig_MouseOver orig,
+        UICharacterNameButton self, UIMouseEvent evt)
+    {
+        LogObject(self);
+    }
+
+    public static void UIClothStyleButton_MouseOver(On_UIClothStyleButton.orig_MouseOver orig,
+        UIClothStyleButton self, UIMouseEvent evt)
+    {
+        LogObject(self);
+    }
 }
