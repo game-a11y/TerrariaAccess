@@ -6,7 +6,7 @@ using Terraria.UI;
 
 namespace TerrariaAccess.Hooks.UI;
 
-public class Hook_UIElement : Hook
+public class UIElementHooks : Hook
 {
     public static void MouseOver(On_UIElement.orig_MouseOver orig, UIElement self, UIMouseEvent evt)
     {

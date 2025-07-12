@@ -22,7 +22,7 @@ public class UIHookMod : ModSystem
     public override void Load()
     {
         /* Terraria.UI */
-        On_UIElement.MouseOver += Hook_UIElement.MouseOver;
+        On_UIElement.MouseOver += UIElementHooks.MouseOver;
         /** UIElement Subtypes:  override MouseOver()
          * 
          * EmoteButton, 
@@ -33,6 +33,6 @@ public class UIHookMod : ModSystem
         /* Terraria */
         On_IngameOptions.MouseOver += TerrariaHooks.IngameOptions_MouseOver;
         /* Terraria.Main */
-        On_Main.DrawSettingButton += Hook_Main.DrawSettingButton;
+        On_Main.DrawSettingButton += MainHooks.DrawSettingButton;
     }
 }

@@ -7,7 +7,7 @@ using Terraria;
 
 namespace TerrariaAccess.Hooks.Terraria;
 
-public class Hook_Main : Hook
+public class MainHooks : Hook
 {
     /**
      * 游戏中》背包页》设置按钮
