@@ -8,6 +8,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.UI;
 using Terraria.UI;
+using TerrariaAccess.Hooks.GameContent.UI.Elements;
 
 namespace TerrariaAccess
 {
@@ -36,6 +37,10 @@ namespace TerrariaAccess
         public override void Load()
         {
             Terraria.UI.On_UIElement.MouseOver += UIElement_MouseOverHook;
+            /** UIElement Subtypes:  override MouseOver() */
+            // Terraria.GameContent.UI
+            On_EmoteButton.MouseOver += Hook_EmoteButton.MouseOver;
+
             Terraria.On_IngameOptions.MouseOver += IngameOptions_MouseOverHook;
             Terraria.On_Main.DrawSettingButton += Main_DrawSettingButton;
             //Terraria.On_Main.DrawInterface_39_MouseOver += Main_DrawInterface_39_MouseOverHook;
