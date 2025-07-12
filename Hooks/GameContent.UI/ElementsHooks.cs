@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 using Terraria.GameContent.UI.Elements;
 using Terraria.UI;
 
-namespace TerrariaAccess.Hooks.GameContent.UI.Elements;
+namespace TerrariaAccess.Hooks.GameContent.UI;
 
-public class Hook_EmoteButton : Hook
+public class ElementsHooks : Hook
 {
-    public static void MouseOver(On_EmoteButton.orig_MouseOver orig,
-        Terraria.GameContent.UI.Elements.EmoteButton self, UIMouseEvent evt)
+    public static void EmoteButton_MouseOver(On_EmoteButton.orig_MouseOver orig, EmoteButton self, UIMouseEvent evt)
     {
         var typeName = self.GetType().Name;
         // TODO: _emoteIndex
