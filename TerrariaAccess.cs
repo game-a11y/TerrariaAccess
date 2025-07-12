@@ -36,6 +36,7 @@ namespace TerrariaAccess
         public override void Load()
         {
             Terraria.UI.On_UIElement.MouseOver += UIElement_MouseOverHook;
+            Terraria.On_IngameOptions.MouseOver += IngameOptions_MouseOverHook;
             //Terraria.On_Main.DrawInterface_39_MouseOver += Main_DrawInterface_39_MouseOverHook;
         }
 
@@ -102,6 +103,19 @@ namespace TerrariaAccess
                 $", {Achievement.FriendlyName}, {Achievement.Description}" +
                 $" ({IsCompleted})";
             Logger.Debug($"{typeName}: {a11yText}");
+        }
+
+        private static void IngameOptions_MouseOverHook(Terraria.On_IngameOptions.orig_MouseOver orig)
+        {
+            var mouseOverText = typeof(IngameOptions)
+                .GetField("_mouseOverText", BindingFlags.NonPublic | BindingFlags.Static)
+                .GetValue(null) as string;
+            if (mouseOverText != null)
+            {
+                Logger.Debug($"IngameOptions.mouseOverText: {mouseOverText}");
+            }
+
+            orig();
         }
 
         private static void Main_DrawInterface_39_MouseOverHook(Terraria.On_Main.orig_DrawInterface_39_MouseOver orig, Terraria.Main self)
