@@ -79,4 +79,22 @@ public class ElementsHooks : Hook
     {
         LogObject(self);
     }
+
+    public static void UIHairStyleButton_MouseOver(On_UIHairStyleButton.orig_MouseOver orig,
+        UIHairStyleButton self, UIMouseEvent evt)
+    {
+        LogObject(self);
+    }
+
+    public static void UIIconTextButton_MouseOver(On_UIIconTextButton.orig_MouseOver orig,
+        UIIconTextButton self, UIMouseEvent evt)
+    {
+        LogObject(self);
+    }
+
+    public static void UIResourcePack_MouseOver(On_UIResourcePack.orig_MouseOver orig,
+        UIResourcePack self, UIMouseEvent evt)
+    {
+        LogObject(self);
+    }
 }
