@@ -29,6 +29,8 @@ public class UIHookMod : ModSystem
          */
         /* Terraria.GameContent.UI */
         On_EmoteButton.MouseOver += ElementsHooks.EmoteButton_MouseOver;
+        // no On_GroupOptionButton
+        On_UIAchievementListItem.MouseOver += ElementsHooks.UIAchievementListItem_MouseOver;
 
         /* Terraria */
         On_IngameOptions.MouseOver += TerrariaHooks.IngameOptions_MouseOver;

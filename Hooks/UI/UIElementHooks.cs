@@ -14,7 +14,6 @@ public class UIElementHooks : Hook
         switch (self)
         {
             case UIToggleImage obj: UIToggleImage_MouseOverHook(obj, evt); break;
-            case UIAchievementListItem obj: UIAchievementListItem_MouseOver(obj, evt); break;
             default:
                 //var typeName = self.GetType().Name;
                 //var metaInfo = self.GetHashCode();
@@ -53,26 +52,7 @@ public class UIElementHooks : Hook
         // TODO: 获取提示文字
         Logger.Debug($"{typeName}({a11yText}): {isOn}, #{metaInfo}");
     }
-    /**
-     * 主菜单》成就》【成就列表项】
-     *  - 成就图标 `_achievementIcon`
-     *  - 是否完成 `achievement.IsCompleted`
-     *  - 分类图标 `achievement.Category`
-     *  - 成就名称 `achievement.FriendlyName`
-     *  - 成就说明 `achievement.Description`
-     */
-    private static void UIAchievementListItem_MouseOver(UIAchievementListItem self, UIMouseEvent evt)
-    {
-        var typeName = self.GetType().Name;
-        var Achievement = self.GetAchievement();
-        var IsCompleted = Achievement.IsCompleted ? "Completed" : "Not Completed";
-        // TODO: 图标描述
-        var a11yText =
-            $"{Achievement.Category}" +
-            $", {Achievement.FriendlyName}, {Achievement.Description}" +
-            $" ({IsCompleted})";
-        Logger.Debug($"{typeName}: {a11yText}");
-    }
+
 
     private static void Main_DrawInterface_39_MouseOverHook(On_Main.orig_DrawInterface_39_MouseOver orig, Main self)
     {
