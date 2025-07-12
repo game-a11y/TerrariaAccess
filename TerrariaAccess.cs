@@ -1,7 +1,10 @@
 using log4net;
+using System;
+using System.Reflection;
 using Terraria;
 using Terraria.GameContent.UI.Elements;
 using Terraria.GameContent.UI.States;
+using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.UI;
 using Terraria.UI;
@@ -33,6 +36,7 @@ namespace TerrariaAccess
         public override void Load()
         {
             Terraria.UI.On_UIElement.MouseOver += UIElement_MouseOverHook;
+            //Terraria.On_Main.DrawInterface_39_MouseOver += Main_DrawInterface_39_MouseOverHook;
         }
 
         private static void UIElement_MouseOverHook(On_UIElement.orig_MouseOver orig, UIElement self, UIMouseEvent evt)
@@ -43,6 +47,9 @@ namespace TerrariaAccess
                 case UIToggleImage obj: UIToggleImage_MouseOverHook(obj, evt); break;
                 case UIAchievementListItem obj: UIAchievementListItem_MouseOver(obj, evt); break;
                 default:
+                    //var typeName = self.GetType().Name;
+                    //var metaInfo = self.GetHashCode();
+                    //Logger.Debug($"{typeName}() #{metaInfo}");
                     break;
             }
 
@@ -95,6 +102,28 @@ namespace TerrariaAccess
                 $", {Achievement.FriendlyName}, {Achievement.Description}" +
                 $" ({IsCompleted})";
             Logger.Debug($"{typeName}: {a11yText}");
+        }
+
+        private static void Main_DrawInterface_39_MouseOverHook(Terraria.On_Main.orig_DrawInterface_39_MouseOver orig, Terraria.Main self)
+        {
+            // 调用原始方法
+            orig(self);
+
+            /* IngameOptions.MouseOver(); */
+            if (Main.mouseText)
+            {
+                // 获取 Main.mouseTextCache
+                var _mouseTextCache = typeof(Main).GetField("_mouseTextCache", BindingFlags.NonPublic);
+                var mouseTextCache = _mouseTextCache.GetValue(self);
+                // 获取私有类型 MouseTextCache，再获取字段的值
+                Type MouseTextCache = typeof(Main).Assembly.GetType("Terraria.Main.MouseTextCache");
+                var cursorText = MouseTextCache.GetField("cursorText").GetValue(mouseTextCache) as string;
+                var buffTooltip = MouseTextCache.GetField("buffTooltip").GetValue(mouseTextCache) as string;
+                var a11y = $"cursorText={cursorText}, buffTooltip={buffTooltip}";
+                Logger.Debug($"Tooltip: {a11y}");
+            }
+            /* IngameFancyUI.MouseOver(); */
+
         }
     }
 }
