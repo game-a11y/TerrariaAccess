@@ -97,4 +97,28 @@ public class ElementsHooks : Hook
     {
         LogObject(self);
     }
+
+    public static void UIWorkshopImportWorldListItem_MouseOver(On_UIWorkshopImportWorldListItem.orig_MouseOver orig,
+        UIWorkshopImportWorldListItem self, UIMouseEvent evt)
+    {
+        LogObject(self);
+    }
+
+    public static void UIWorkshopPublishResourcePackListItem_MouseOver(On_UIWorkshopPublishResourcePackListItem.orig_MouseOver orig,
+        UIWorkshopPublishResourcePackListItem self, UIMouseEvent evt)
+    {
+        LogObject(self);
+    }
+
+    public static void UIWorkshopPublishWorldListItem_MouseOver(On_UIWorkshopPublishWorldListItem.orig_MouseOver orig,
+        UIWorkshopPublishWorldListItem self, UIMouseEvent evt)
+    {
+        LogObject(self);
+    }
+
+    public static void UIWorldListItem_MouseOver(On_UIWorldListItem.orig_MouseOver orig,
+        UIWorldListItem self, UIMouseEvent evt)
+    {
+        LogObject(self);
+    }
 }

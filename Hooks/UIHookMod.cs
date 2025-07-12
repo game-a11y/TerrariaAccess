@@ -29,11 +29,14 @@ public class UIHookMod : ModSystem
          *      EmoteButton,
          *      ??GroupOptionButton<T>,
          *      UICharacterNameButton, UIClothStyleButton，UIColoredImageButton,
-         *      UIImageButton, UIIconTextButton,
+         *      UIImageButton, UIIconTextButton, UISearchBar,
          * UIElement >> UIImageButton >>
          *      UIHairStyleButton,
          * UIElement >> UIPanel >>
          *      UIAchievementListItem, UICharacterListItem, UIResourcePack,
+         *      UIWorkshopPublishResourcePackListItem,
+         *      AWorldListItem >>
+         *          UIWorkshopImportWorldListItem, UIWorkshopPublishWorldListItem, UIWorldListItem,
          */
         /* Terraria.GameContent.UI */
         On_EmoteButton.MouseOver += ElementsHooks.EmoteButton_MouseOver;
@@ -48,6 +51,11 @@ public class UIHookMod : ModSystem
         On_UIHairStyleButton.MouseOver += ElementsHooks.UIHairStyleButton_MouseOver;
         On_UIIconTextButton.MouseOver += ElementsHooks.UIIconTextButton_MouseOver;
         On_UIResourcePack.MouseOver += ElementsHooks.UIResourcePack_MouseOver;
+        // TODO: UISearchBar
+        On_UIWorkshopImportWorldListItem.MouseOver += ElementsHooks.UIWorkshopImportWorldListItem_MouseOver;
+        On_UIWorkshopPublishResourcePackListItem.MouseOver += ElementsHooks.UIWorkshopPublishResourcePackListItem_MouseOver;
+        On_UIWorkshopPublishWorldListItem.MouseOver += ElementsHooks.UIWorkshopPublishWorldListItem_MouseOver;
+        On_UIWorldListItem.MouseOver += ElementsHooks.UIWorldListItem_MouseOver;
 
         /* Terraria */
         On_IngameOptions.MouseOver += TerrariaHooks.IngameOptions_MouseOver;
