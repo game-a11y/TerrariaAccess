@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -10,6 +11,11 @@ namespace TerrariaAccess.Hooks.Terraria;
 
 public class MainHooks : Hook
 {
+    /*
+        public static int menuMode;
+        public static bool changeTheTitle;
+    
+    */
     // Main.MouseTextCache
     public struct MouseTextCache
     {
@@ -31,6 +37,21 @@ public class MainHooks : Hook
     public static Main GetMainInstance()
     {
         return Main.instance;
+    }
+
+    public static int GetSelectedMenu()
+    {
+        FieldInfo Main_selectedMenu = typeof(Main).GetField(
+            "selectedMenu",
+            BindingFlags.NonPublic | BindingFlags.Instance
+        );
+        var selectedMenu = Main_selectedMenu.GetValue(GetMainInstance());
+        if (selectedMenu is int i)
+        {
+            //Logger.Debug($"Main.selectedMenu={i}");
+            return i;
+        }
+        return -1;
     }
 
     public static MouseTextCache GetMouseTextCache()
@@ -89,6 +110,30 @@ public class MainHooks : Hook
         {
             var a11yText = text;
             Logger.Debug($"(InGame) SettingButton: {a11yText}");
+        }
+    }
+
+    public static void DrawMenu(On_Main.orig_DrawMenu orig,
+        Main self, GameTime gameTime)
+    {
+        var preMenuMode = Main.menuMode;
+        var preChangeTheTitle = Main.changeTheTitle;
+        var preSelectedMenu = GetSelectedMenu();
+
+        orig(self, gameTime);
+
+        var postMenuMode = Main.menuMode;
+        var postChangeTheTitle = Main.changeTheTitle;
+        var postSelectedMenu = GetSelectedMenu();
+
+        if (preMenuMode >= 0 && postMenuMode >= 0)
+        {
+            if (preSelectedMenu != postSelectedMenu)
+            {
+                Logger.Debug($"preMenuMode={preMenuMode}, postMenuMode={postMenuMode}, " +
+                    $"SelectedMenu={preSelectedMenu};\n" +
+                    $"preChangeTheTitle={preChangeTheTitle}");
+            }
         }
     }
 }

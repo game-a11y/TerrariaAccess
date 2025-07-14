@@ -64,7 +64,11 @@ public class UIHookMod : ModSystem
         On_IngameOptions.DrawLeftSide += TerrariaHooks.IngameOptionsHook.DrawLeftSide;
         On_IngameOptions.DrawRightSide += TerrariaHooks.IngameOptionsHook.DrawRightSide;
         On_IngameOptions.DrawValue += TerrariaHooks.IngameOptionsHook.DrawValue;
+        // TODO: DrawValueBar
+
         /* Terraria.Main */
         On_Main.DrawSettingButton += MainHooks.DrawSettingButton;
+        On_Main.DrawMenu += MainHooks.DrawMenu;
+        //On_DynamicSpriteFontExtensionMethods.DrawString += MainHooks.DynamicSpriteFontExtensionMethods_DrawString;
     }
 }
