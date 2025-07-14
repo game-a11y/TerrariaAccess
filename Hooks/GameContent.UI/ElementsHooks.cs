@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Terraria;
 using Terraria.GameContent.UI.Elements;
 using Terraria.UI;
 using TerrariaAccess.Hooks.Terraria;
@@ -146,12 +147,30 @@ public class ElementsHooks : Hook
             return _GetFriendlyName.Invoke(self, null) as string;
         }
 
+        public static string GetKeybind(UIKeybindingListItem self)
+        {
+            FieldInfo _keybind = typeof(UIKeybindingListItem).GetField(
+                "_keybind",
+                BindingFlags.NonPublic | BindingFlags.Instance);
+            var keybind = _keybind.GetValue(self) as string;
+            if (String.IsNullOrEmpty(keybind))
+            {
+                return "";
+            }
+            return keybind as string;
+        }
+
         public static void MouseOver(UIKeybindingListItem self, UIMouseEvent evt)
         {
             var A11yText = "";
             var FriendlyName = GetFriendlyName(self);
+            // List<string> list = PlayerInput.CurrentProfile.InputModes[this._inputmode].KeyStatus[this._keybind];
+            // this.GenInput(list);
+            // use ChatManager.DrawColorCodedStringWithShadow(, text, )
+            // TODO: text
+            //var KeyBind = GetKeybind(self);
 
-            A11yText = $"{FriendlyName}";
+            A11yText = $"{FriendlyName}: ";
 
             var typeName = self.GetType().Name;
             Logger.Debug($"{typeName}: {A11yText}");
