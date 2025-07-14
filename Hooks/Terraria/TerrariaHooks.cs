@@ -76,5 +76,22 @@ public class TerrariaHooks : Hook
             }
             return ret;
         }
+
+        public static bool DrawRightSide(On_IngameOptions.orig_DrawRightSide orig,
+            SpriteBatch sb, string txt, int i, Vector2 anchor, Vector2 offset,
+            float scale, float colorScale, Color over)
+        {
+            bool ret = orig(sb, txt, i, anchor, offset, scale, colorScale, over);
+            if (ret)
+            {
+                // NOTE: Cache here, not outside if
+                cacheParams(txt, i, anchor, offset);
+                if (isFirstHover)
+                {
+                    Logger.Debug($"IngameOptions.DrawRightSide: {txt}");
+                }
+            }
+            return ret;
+        }
     }
 }

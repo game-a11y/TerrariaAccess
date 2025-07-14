@@ -62,6 +62,7 @@ public class UIHookMod : ModSystem
         /* Terraria */
         On_IngameOptions.MouseOver += TerrariaHooks.IngameOptionsHook.MouseOver;
         On_IngameOptions.DrawLeftSide += TerrariaHooks.IngameOptionsHook.DrawLeftSide;
+        On_IngameOptions.DrawRightSide += TerrariaHooks.IngameOptionsHook.DrawRightSide;
         /* Terraria.Main */
         On_Main.DrawSettingButton += MainHooks.DrawSettingButton;
     }
