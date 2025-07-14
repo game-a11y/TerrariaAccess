@@ -155,7 +155,13 @@ public class MainHooks : Hook
         {
             if (isFocusMenuChanged)
             {
-                Logger.Debug($"focus={focusMenu}" +
+                var buttonName = "";
+                // TODO: 目前仅支持主菜单，次级菜单还有问题
+                if (focusMenu >= 0 && InterfaceHooks.buttonNames.Length > focusMenu)
+                {
+                    buttonName = InterfaceHooks.buttonNames[focusMenu];
+                }
+                Logger.Debug($"{buttonName}: focus={focusMenu}" +
                     $", MenuMode: {preMenuMode} -> {postMenuMode}" +
                     $", SelectedMenu={preSelectedMenu};");
                 //Logger.Debug($"preChangeTheTitle={preChangeTheTitle}");
