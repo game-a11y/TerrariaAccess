@@ -16,13 +16,22 @@ public class TerrariaHooks : Hook
     {
         // 使用元组缓存所有相关参数
         static (
-            string txt, int index, Vector2 anchor, Vector2 offset
-        ) lastParams = (string.Empty, -1, Vector2.Zero, Vector2.Zero);
+            // DrawLeftSide, DrawRightSide
+            string txt, int index, Vector2 anchor, Vector2 offset,
+            // DrawValue
+            float scale
+        ) lastParams = (
+            string.Empty, -1, Vector2.Zero, Vector2.Zero,
+            0.0f
+        );
         static bool isFirstHover = false;
 
-        static void cacheParams(string txt, int i, Vector2 anchor, Vector2 offset)
+        static bool cacheParams(
+            string txt, int i, Vector2 anchor, Vector2 offset,
+            float scale = 0.0f
+        )
         {
-            var currentParams = (txt ?? string.Empty, i, anchor, offset);
+            var currentParams = (txt ?? string.Empty, i, anchor, offset, scale);
             isFirstHover = lastParams != currentParams;
             if (isFirstHover)
             {
@@ -30,6 +39,8 @@ public class TerrariaHooks : Hook
                 //Logger.Debug($"currentParams: {currentParams}");
                 lastParams = currentParams;
             }
+
+            return isFirstHover;
         }
 
         static bool CanConsumeHover()
@@ -90,6 +101,21 @@ public class TerrariaHooks : Hook
                 {
                     Logger.Debug($"IngameOptions.DrawRightSide: {txt}");
                 }
+            }
+            return ret;
+        }
+
+        /**
+         * Seems not use?
+         */
+        public static bool DrawValue(On_IngameOptions.orig_DrawValue orig,
+            SpriteBatch sb, string txt, int i, float scale, Color over)
+        {
+            bool ret = orig(sb, txt, i, scale, over);
+            // NOTE: Cache here, not outside if
+            if (ret && cacheParams(txt, i, Vector2.Zero, Vector2.Zero, scale))
+            {
+                Logger.Debug($"IngameOptions.DrawValue: {txt}");
             }
             return ret;
         }
