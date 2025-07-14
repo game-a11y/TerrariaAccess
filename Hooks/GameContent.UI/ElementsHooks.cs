@@ -5,16 +5,23 @@ using System.Text;
 using System.Threading.Tasks;
 using Terraria.GameContent.UI.Elements;
 using Terraria.UI;
+using TerrariaAccess.Hooks.Terraria;
 
 namespace TerrariaAccess.Hooks.GameContent.UI;
 
 public class ElementsHooks : Hook
 {
-    public static void EmoteButton_MouseOver(On_EmoteButton.orig_MouseOver orig, EmoteButton self, UIMouseEvent evt)
+    public static void EmoteButton_MouseOver(On_EmoteButton.orig_MouseOver orig,
+        EmoteButton self, UIMouseEvent evt)
     {
+        string a11yText = "";
+        //a11yText = $"#{self.GetHashCode()}";  // DEBUG
+        var mouseTextCache = MainHooks.GetMouseTextCache();
+        if (!String.IsNullOrEmpty(mouseTextCache.cursorText))
+        {
+            a11yText = $"{mouseTextCache.cursorText}";
+        }
         var typeName = self.GetType().Name;
-        // TODO: _emoteIndex
-        var a11yText = self.GetHashCode();
         Logger.Debug($"{typeName}: {a11yText}");
 
         // 调用原始方法
