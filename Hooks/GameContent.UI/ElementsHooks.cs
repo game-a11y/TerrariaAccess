@@ -176,4 +176,16 @@ public class ElementsHooks : Hook
             Logger.Debug($"{typeName}: {A11yText}");
         }
     }
+
+    public static void UITextPanel_MouseOverHook(UITextPanel<string> self, UIMouseEvent evt)
+    {
+        // UITextPanel<string> 的 Text 属性是 public 的
+        var typeName = self.GetType().Name;
+        var text = self.Text;
+        if (String.IsNullOrEmpty(text))
+        {
+            text = "";
+        }
+        Logger.Debug($"{typeName}: {text}");
+    }
 }

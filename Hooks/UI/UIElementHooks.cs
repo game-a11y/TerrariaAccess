@@ -16,6 +16,8 @@ public class UIElementHooks : Hook
         {
             case UIToggleImage obj: UIToggleImage_MouseOverHook(obj, evt); break;
             case UIKeybindingListItem obj: UIKeybindingListItemHooks.MouseOver(obj, evt); break;
+            /* UIPanel */
+            //case UITextPanel<string> obj: UITextPanel_MouseOverHook(obj, evt); break;
             default:
                 //var typeName = self.GetType().Name;
                 //var metaInfo = self.GetHashCode();
