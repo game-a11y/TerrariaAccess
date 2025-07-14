@@ -11,6 +11,7 @@ namespace TerrariaAccess.Hooks.Terraria;
 
 public class MainHooks : Hook
 {
+    static int lastFoucusMenu = -1;
     /*
         public static int menuMode;
         public static bool changeTheTitle;
@@ -49,6 +50,21 @@ public class MainHooks : Hook
         if (selectedMenu is int i)
         {
             //Logger.Debug($"Main.selectedMenu={i}");
+            return i;
+        }
+        return -1;
+    }
+
+    /**
+     * 当前 Hover 的菜单序号
+     */
+    public static int GetFocusMenu()
+    {
+        FieldInfo Main_focusMenu = typeof(Main).GetField("focusMenu", BindingFlags.NonPublic | BindingFlags.Instance);
+        var focusMenu = Main_focusMenu.GetValue(GetMainInstance());
+        if (focusMenu is int i)
+        {
+            //Logger.Debug($"Main.focusMenu={i}");
             return i;
         }
         return -1;
@@ -116,6 +132,14 @@ public class MainHooks : Hook
     public static void DrawMenu(On_Main.orig_DrawMenu orig,
         Main self, GameTime gameTime)
     {
+        var newFocusMenu = GetFocusMenu();
+        var isFocusMenuChanged = lastFoucusMenu != newFocusMenu;
+        if (isFocusMenuChanged)
+        {
+            //Logger.Debug($"isFocusMenuChanged: {lastFoucusMenu}, {newFocusMenu}");
+            lastFoucusMenu = newFocusMenu;
+        }
+
         var preMenuMode = Main.menuMode;
         var preChangeTheTitle = Main.changeTheTitle;
         var preSelectedMenu = GetSelectedMenu();
@@ -125,14 +149,16 @@ public class MainHooks : Hook
         var postMenuMode = Main.menuMode;
         var postChangeTheTitle = Main.changeTheTitle;
         var postSelectedMenu = GetSelectedMenu();
+        var focusMenu = GetFocusMenu();
 
         if (preMenuMode >= 0 && postMenuMode >= 0)
         {
-            if (preSelectedMenu != postSelectedMenu)
+            if (isFocusMenuChanged)
             {
-                Logger.Debug($"preMenuMode={preMenuMode}, postMenuMode={postMenuMode}, " +
-                    $"SelectedMenu={preSelectedMenu};\n" +
-                    $"preChangeTheTitle={preChangeTheTitle}");
+                Logger.Debug($"focus={focusMenu}" +
+                    $", MenuMode: {preMenuMode} -> {postMenuMode}" +
+                    $", SelectedMenu={preSelectedMenu};");
+                //Logger.Debug($"preChangeTheTitle={preChangeTheTitle}");
             }
         }
     }
