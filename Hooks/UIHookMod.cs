@@ -60,7 +60,8 @@ public class UIHookMod : ModSystem
         On_ItemSlot.MouseHover_ItemArray_int_int += ItemSlotHooks.MouseHover_ItemArray_int_int;
 
         /* Terraria */
-        On_IngameOptions.MouseOver += TerrariaHooks.IngameOptions_MouseOver;
+        On_IngameOptions.MouseOver += TerrariaHooks.IngameOptionsHook.MouseOver;
+        On_IngameOptions.DrawLeftSide += TerrariaHooks.IngameOptionsHook.DrawLeftSide;
         /* Terraria.Main */
         On_Main.DrawSettingButton += MainHooks.DrawSettingButton;
     }
