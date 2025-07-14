@@ -56,6 +56,8 @@ public class UIHookMod : ModSystem
         On_UIWorkshopPublishResourcePackListItem.MouseOver += ElementsHooks.UIWorkshopPublishResourcePackListItem_MouseOver;
         On_UIWorkshopPublishWorldListItem.MouseOver += ElementsHooks.UIWorkshopPublishWorldListItem_MouseOver;
         On_UIWorldListItem.MouseOver += ElementsHooks.UIWorldListItem_MouseOver;
+        /* No super class */
+        On_ItemSlot.MouseHover_ItemArray_int_int += ItemSlotHooks.MouseHover_ItemArray_int_int;
 
         /* Terraria */
         On_IngameOptions.MouseOver += TerrariaHooks.IngameOptions_MouseOver;
