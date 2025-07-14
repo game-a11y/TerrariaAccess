@@ -11,16 +11,13 @@ namespace TerrariaAccess.Hooks;
 
 public class UIHookMod : ModSystem
 {
-    public static ILog Logger { get; internal set; }
-
-    public override void SetStaticDefaults()
-    {
-        base.SetStaticDefaults();
-        Logger = LogManager.GetLogger("TerrariaAccess.Hooks");
-    }
+    public static ILog Logger = LogManager.GetLogger("TerrariaAccess.Hooks");
 
     public override void Load()
     {
+        /* Terraria.ModLoader.UI.Interface */
+        InterfaceHooks.Initialize();
+
         /* Terraria.UI */
         On_UIElement.MouseOver += UIElementHooks.MouseOver;
         /** UIElement Subtypes:  override MouseOver()
@@ -70,5 +67,12 @@ public class UIHookMod : ModSystem
         On_Main.DrawSettingButton += MainHooks.DrawSettingButton;
         On_Main.DrawMenu += MainHooks.DrawMenu;
         //On_DynamicSpriteFontExtensionMethods.DrawString += MainHooks.DynamicSpriteFontExtensionMethods_DrawString;
+
+        Logger.Info("UIHookMod loaded successfully.");
+    }
+
+    public override void Unload()
+    {
+        InterfaceHooks.Dispose();
     }
 }
