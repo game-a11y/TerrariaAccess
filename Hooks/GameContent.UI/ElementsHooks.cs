@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Terraria.GameContent.UI.Elements;
@@ -127,5 +128,33 @@ public class ElementsHooks : Hook
         UIWorldListItem self, UIMouseEvent evt)
     {
         LogObject(self);
+    }
+
+    public class UIKeybindingListItemHooks
+    {
+        // private string GetFriendlyName()
+        public static string GetFriendlyName(UIKeybindingListItem self)
+        {
+            // 获取私有字段 _keybinding
+            var _GetFriendlyName = typeof(UIKeybindingListItem).GetMethod(
+                "GetFriendlyName",
+                BindingFlags.NonPublic | BindingFlags.Instance);
+            if (_GetFriendlyName == null)
+            {
+                return "";
+            }
+            return _GetFriendlyName.Invoke(self, null) as string;
+        }
+
+        public static void MouseOver(UIKeybindingListItem self, UIMouseEvent evt)
+        {
+            var A11yText = "";
+            var FriendlyName = GetFriendlyName(self);
+
+            A11yText = $"{FriendlyName}";
+
+            var typeName = self.GetType().Name;
+            Logger.Debug($"{typeName}: {A11yText}");
+        }
     }
 }

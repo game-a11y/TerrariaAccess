@@ -3,6 +3,7 @@ using System.Reflection;
 using Terraria;
 using Terraria.GameContent.UI.Elements;
 using Terraria.UI;
+using static TerrariaAccess.Hooks.GameContent.UI.ElementsHooks;
 
 namespace TerrariaAccess.Hooks.UI;
 
@@ -14,6 +15,7 @@ public class UIElementHooks : Hook
         switch (self)
         {
             case UIToggleImage obj: UIToggleImage_MouseOverHook(obj, evt); break;
+            case UIKeybindingListItem obj: UIKeybindingListItemHooks.MouseOver(obj, evt); break;
             default:
                 //var typeName = self.GetType().Name;
                 //var metaInfo = self.GetHashCode();
@@ -74,5 +76,4 @@ public class UIElementHooks : Hook
         }
         /* IngameFancyUI.MouseOver(); */
     }
-
 }
