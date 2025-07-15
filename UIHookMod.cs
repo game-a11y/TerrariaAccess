@@ -3,16 +3,17 @@ using Terraria;
 using Terraria.GameContent.UI.Elements;
 using Terraria.ModLoader;
 using Terraria.UI;
+using TerrariaAccess.Hooks;
 using TerrariaAccess.Hooks.GameContent.UI;
 using TerrariaAccess.Hooks.ModLoader;
 using TerrariaAccess.Hooks.Terraria;
 using TerrariaAccess.Hooks.UI;
 
-namespace TerrariaAccess.Hooks;
+namespace TerrariaAccess;
 
 public class UIHookMod : ModSystem
 {
-    public static ILog Logger = LogManager.GetLogger("TerrariaAccess.Hooks");
+    public static ILog Logger = LogManager.GetLogger("TerrariaAccess");
 
     public override void Load()
     {
