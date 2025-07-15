@@ -59,10 +59,10 @@ public class UIHookMod : ModSystem
         On_ItemSlot.MouseHover_ItemArray_int_int += ItemSlotHooks.MouseHover_ItemArray_int_int;
 
         /* Terraria */
-        On_IngameOptions.MouseOver += TerrariaHooks.IngameOptionsHook.MouseOver;
-        On_IngameOptions.DrawLeftSide += TerrariaHooks.IngameOptionsHook.DrawLeftSide;
-        On_IngameOptions.DrawRightSide += TerrariaHooks.IngameOptionsHook.DrawRightSide;
-        On_IngameOptions.DrawValue += TerrariaHooks.IngameOptionsHook.DrawValue;
+        On_IngameOptions.MouseOver += IngameOptions_Hook.MouseOver;
+        On_IngameOptions.DrawLeftSide += IngameOptions_Hook.DrawLeftSide;
+        On_IngameOptions.DrawRightSide += IngameOptions_Hook.DrawRightSide;
+        On_IngameOptions.DrawValue += IngameOptions_Hook.DrawValue;
         // TODO: DrawValueBar
 
         /* Terraria.Main */
