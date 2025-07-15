@@ -7,7 +7,10 @@ using static TerrariaAccess.Hooks.GameContent.UI.ElementsHooks;
 
 namespace TerrariaAccess.Hooks.UI;
 
-public class UIElementHooks : Hook
+/// <summary>
+/// Hook <c>Terraria.UI.UIElement</c>
+/// </summary>
+public class UIElement_Hook : Hook
 {
     public static void MouseOver(On_UIElement.orig_MouseOver orig, UIElement self, UIMouseEvent evt)
     {

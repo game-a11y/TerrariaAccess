@@ -21,7 +21,7 @@ public class UIHookMod : ModSystem
         InterfaceHooks.Initialize();
 
         /* Terraria.UI */
-        On_UIElement.MouseOver += UIElementHooks.MouseOver;
+        On_UIElement.MouseOver += UIElement_Hook.MouseOver;
         /** UIElement Subtypes:  override MouseOver()
          * 
          * UIElement >>
