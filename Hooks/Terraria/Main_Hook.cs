@@ -2,7 +2,7 @@
 using System;
 using System.Reflection;
 using Terraria;
-using TerrariaAccess.Hooks.ModLoader;
+using TerrariaAccess.Hooks.ModLoader.UI;
 
 namespace TerrariaAccess.Hooks.Terraria;
 
@@ -154,9 +154,9 @@ public class Main_Hook : Hook
             {
                 var buttonName = "";
                 // TODO: 目前仅支持主菜单，次级菜单还有问题
-                if (focusMenu >= 0 && InterfaceHooks.buttonNames.Length > focusMenu)
+                if (focusMenu >= 0 && Interface_Hook.buttonNames.Length > focusMenu)
                 {
-                    buttonName = InterfaceHooks.buttonNames[focusMenu];
+                    buttonName = Interface_Hook.buttonNames[focusMenu];
                 }
                 Logger.Debug($"{buttonName}: focus={focusMenu}" +
                     $", MenuMode: {preMenuMode} -> {postMenuMode}" +

@@ -4,9 +4,12 @@ using System.Reflection;
 using Terraria;
 using tML = Terraria.ModLoader;
 
-namespace TerrariaAccess.Hooks.ModLoader;
+namespace TerrariaAccess.Hooks.ModLoader.UI;
 
-public class InterfaceHooks : Hook
+/// <summary>
+/// Hook <c>Terraria.ModLoader.UI.Interface</c>
+/// </summary>
+public class Interface_Hook : Hook
 {
     public static string[] buttonNames;
     private static MonoMod.RuntimeDetour.Hook addMenuButtonsHook;
@@ -67,7 +70,7 @@ public class InterfaceHooks : Hook
     )
     {
         //Logger.Debug("Interface.AddMenuButtons called");
-        InterfaceHooks.buttonNames = buttonNames;
+        Interface_Hook.buttonNames = buttonNames;
         orig(
             main, selectedMenu, buttonNames, buttonScales,
             ref offY, ref spacing, ref buttonIndex, ref numButtons

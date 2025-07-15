@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 using Terraria.UI;
 using TerrariaAccess.Hooks;
 using TerrariaAccess.Hooks.GameContent.UI;
-using TerrariaAccess.Hooks.ModLoader;
+using TerrariaAccess.Hooks.ModLoader.UI;
 using TerrariaAccess.Hooks.Terraria;
 using TerrariaAccess.Hooks.UI;
 
@@ -18,7 +18,7 @@ public class UIHookMod : ModSystem
     public override void Load()
     {
         /* Terraria.ModLoader.UI.Interface */
-        InterfaceHooks.Initialize();
+        Interface_Hook.Initialize();
 
         /* Terraria.UI */
         On_UIElement.MouseOver += UIElement_Hook.MouseOver;
@@ -75,6 +75,6 @@ public class UIHookMod : ModSystem
 
     public override void Unload()
     {
-        InterfaceHooks.Dispose();
+        Interface_Hook.Dispose();
     }
 }
