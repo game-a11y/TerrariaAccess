@@ -11,7 +11,13 @@ namespace TerrariaAccess.Hooks.ModLoader.UI;
 /// </summary>
 public class Interface_Hook : Hook
 {
+    /// <summary>
+    /// Button names for the main menus, used by <c>Interface.AddMenuButtons</c>.
+    /// </summary>
     public static string[] buttonNames;
+    /// <summary>Represents the total number of buttons available.</summary>
+    public static int numButtons = 0;
+
     private static MonoMod.RuntimeDetour.Hook addMenuButtonsHook;
     private static MonoMod.RuntimeDetour.Hook modLoaderMenusHook;
 
@@ -75,21 +81,38 @@ public class Interface_Hook : Hook
             main, selectedMenu, buttonNames, buttonScales,
             ref offY, ref spacing, ref buttonIndex, ref numButtons
         );
+        // NOTE: orig will set `numButtons`
+        Interface_Hook.numButtons = numButtons;
     }
 
     public delegate void orig_ModLoaderMenus(
         Main main, int selectedMenu, string[] buttonNames, float[] buttonScales, int[] buttonVerticalSpacing,
         ref int offY, ref int spacing, ref int numButtons, ref bool backButtonDown
     );
+    /// <summary>
+    /// Hook menus added by tModLoader.
+    /// </summary>
+    /// <param name="orig"></param>
+    /// <param name="main"></param>
+    /// <param name="selectedMenu">Current selected menu</param>
+    /// <param name="buttonNames">Button names array</param>
+    /// <param name="buttonScales"></param>
+    /// <param name="buttonVerticalSpacing"></param>
+    /// <param name="offY"></param>
+    /// <param name="spacing"></param>
+    /// <param name="numButtons">Total buttons added</param>
+    /// <param name="backButtonDown">is there is a `Back` button</param>
     public static void ModLoaderMenus_Hook(orig_ModLoaderMenus orig,
         Main main, int selectedMenu, string[] buttonNames, float[] buttonScales, int[] buttonVerticalSpacing,
         ref int offY, ref int spacing, ref int numButtons, ref bool backButtonDown
     )
     {
         //Logger.Debug("Interface.ModLoaderMenus called");
+        Interface_Hook.buttonNames = buttonNames;
         orig(
             main, selectedMenu, buttonNames, buttonScales, buttonVerticalSpacing,
             ref offY, ref spacing, ref numButtons, ref backButtonDown
         );
+        Interface_Hook.numButtons = numButtons;
     }
 }
