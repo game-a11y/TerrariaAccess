@@ -18,7 +18,7 @@ public class ElementsHooks : Hook
     {
         string a11yText = "";
         //a11yText = $"#{self.GetHashCode()}";  // DEBUG
-        var mouseTextCache = MainHooks.GetMouseTextCache();
+        var mouseTextCache = Main_Hook.GetMouseTextCache();
         if (!String.IsNullOrEmpty(mouseTextCache.cursorText))
         {
             a11yText = $"{mouseTextCache.cursorText}";

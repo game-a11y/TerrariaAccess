@@ -66,9 +66,9 @@ public class UIHookMod : ModSystem
         // TODO: DrawValueBar
 
         /* Terraria.Main */
-        On_Main.DrawSettingButton += MainHooks.DrawSettingButton;
-        On_Main.DrawMenu += MainHooks.DrawMenu;
-        //On_DynamicSpriteFontExtensionMethods.DrawString += MainHooks.DynamicSpriteFontExtensionMethods_DrawString;
+        On_Main.DrawSettingButton += Main_Hook.DrawSettingButton;
+        On_Main.DrawMenu += Main_Hook.DrawMenu;
+        //On_DynamicSpriteFontExtensionMethods.DrawString += Main_Hook.DynamicSpriteFontExtensionMethods_DrawString;
 
         Logger.Info("UIHookMod loaded successfully.");
     }
