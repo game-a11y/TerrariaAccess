@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria;
+﻿using Terraria;
 using Terraria.UI;
 
 namespace TerrariaAccess.Hooks.GameContent.UI;
 
-public class ItemSlotHooks : Hook
+public class ItemSlot_Hook : Hook
 {
     /// <summary>
     /// Indicates whether this is the first hover event for the current item slot.
