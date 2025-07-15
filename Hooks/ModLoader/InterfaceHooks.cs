@@ -1,16 +1,12 @@
 ﻿using MonoMod.RuntimeDetour;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
-using Terraria.ModLoader;
+using tML = Terraria.ModLoader;
 
-namespace TerrariaAccess.Hooks;
+namespace TerrariaAccess.Hooks.ModLoader;
 
-public class InterfaceHooks : Hooks.Hook
+public class InterfaceHooks : Hook
 {
     public static string[] buttonNames;
     private static MonoMod.RuntimeDetour.Hook addMenuButtonsHook;
@@ -21,7 +17,7 @@ public class InterfaceHooks : Hooks.Hook
         try
         {
             // 获取 ModLoader 程序集中的 Interface 类
-            Assembly modLoaderAssembly = typeof(ModLoader).Assembly;
+            Assembly modLoaderAssembly = typeof(tML.ModLoader).Assembly;
             Type interfaceType = modLoaderAssembly.GetType("Terraria.ModLoader.UI.Interface");
 
             if (interfaceType == null)

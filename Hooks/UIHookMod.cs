@@ -4,6 +4,7 @@ using Terraria.GameContent.UI.Elements;
 using Terraria.ModLoader;
 using Terraria.UI;
 using TerrariaAccess.Hooks.GameContent.UI;
+using TerrariaAccess.Hooks.ModLoader;
 using TerrariaAccess.Hooks.Terraria;
 using TerrariaAccess.Hooks.UI;
 

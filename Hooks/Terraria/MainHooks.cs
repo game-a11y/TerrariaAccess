@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Terraria;
+using TerrariaAccess.Hooks.ModLoader;
 
 namespace TerrariaAccess.Hooks.Terraria;
 
