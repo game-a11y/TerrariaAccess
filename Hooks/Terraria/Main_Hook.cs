@@ -123,7 +123,9 @@ public class Main_Hook : Hook
         if (shouldOutput)
         {
             var a11yText = text;
-            Logger.Debug($"(InGame) SettingButton: {a11yText}");
+            var debugText = string.Empty;
+            debugText = $"\n\t(InGame) DrawSettingButton";
+            Logger.Debug($"{a11yText}{debugText}");
         }
     }
 
