@@ -2,6 +2,7 @@
 using System;
 using System.Reflection;
 using Terraria;
+using Terraria.ID;
 using TerrariaAccess.Hooks.ModLoader.UI;
 
 namespace TerrariaAccess.Hooks.Terraria;
@@ -153,11 +154,15 @@ public class Main_Hook : Hook
             if (isFocusMenuChanged)
             {
                 var buttonName = "";
+                // NOTE: Interface_Hook.buttonNames 仅在“主菜单”和“TML菜单”生成时才会被更新
                 // TODO: 目前仅支持主菜单，次级菜单还有问题
-                if (focusMenu >= 0 && Interface_Hook.buttonNames.Length > focusMenu)
-                {
-                    buttonName = Interface_Hook.buttonNames[focusMenu];
-                }
+                //if (focusMenu >= 0 && Interface_Hook.buttonNames.Length > focusMenu)
+                //{
+                //    buttonName = Interface_Hook.buttonNames[focusMenu];
+                //}
+
+                // 通过缓存获取菜单名称
+                buttonName = ReLogic_Hooks.GetButtonName(preMenuMode, focusMenu);
                 Logger.Debug($"{buttonName}: focus={focusMenu}" +
                     $", MenuMode: {preMenuMode} -> {postMenuMode}" +
                     $", SelectedMenu={preSelectedMenu};");

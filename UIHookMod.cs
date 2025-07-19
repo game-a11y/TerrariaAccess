@@ -17,6 +17,8 @@ public class UIHookMod : ModSystem
 
     public override void Load()
     {
+        /* ReLogic Hooks */
+        ReLogic_Hooks.Initialize();
         /* Terraria.ModLoader.UI.Interface */
         Interface_Hook.Initialize();
 
@@ -76,5 +78,6 @@ public class UIHookMod : ModSystem
     public override void Unload()
     {
         Interface_Hook.Dispose();
+        ReLogic_Hooks.Dispose();
     }
 }
