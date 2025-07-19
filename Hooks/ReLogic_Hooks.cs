@@ -29,7 +29,9 @@ public class ReLogic_Hooks : Hook
     {
         if (buttonNamesCache.ContainsKey(menuNode) && index >= 0 && index < buttonNamesCache[menuNode].Count)
         {
-            return buttonNamesCache[menuNode][index];
+            int totalCount = buttonNamesCache[menuNode].Count;
+            var buttonName = buttonNamesCache[menuNode][index];
+            return $"{buttonName} {index+1}/{totalCount}";
         }
         return string.Empty;
     }

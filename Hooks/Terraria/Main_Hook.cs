@@ -163,9 +163,12 @@ public class Main_Hook : Hook
 
                 // 通过缓存获取菜单名称
                 buttonName = ReLogic_Hooks.GetButtonName(preMenuMode, focusMenu);
-                Logger.Debug($"{buttonName}: focus={focusMenu}" +
+                var debugText = string.Empty;
+                debugText = $"\n\tMain.DrawMenu: " +
+                    $"focus={focusMenu}" +
                     $", MenuMode: {preMenuMode} -> {postMenuMode}" +
-                    $", SelectedMenu={preSelectedMenu};");
+                    $", SelectedMenu={preSelectedMenu};";
+                Logger.Debug($"{buttonName}{debugText}");
                 //Logger.Debug($"preChangeTheTitle={preChangeTheTitle}");
             }
         }
