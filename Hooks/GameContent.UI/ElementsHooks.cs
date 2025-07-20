@@ -111,10 +111,16 @@ public class ElementsHooks : Hook
     public static void UIImageButton_MouseOver(On_UIImageButton.orig_MouseOver orig,
         UIImageButton self, UIMouseEvent evt)
     {
+        if (self == null)
+        {
+            orig(self, evt);
+            return;
+        }
+
         // TODO: 获取父级 UICharacterListItem 对象
-        SnapPoint snapPoint = new SnapPoint("", -1, Vector2.Zero, Vector2.Zero);
+        SnapPoint snapPoint = null;
         self.GetSnapPoint(out snapPoint);
-        var A11yText = $"{snapPoint.Name}";
+        var A11yText = $"{snapPoint?.Name}";
         var typeName = self.GetType().Name;
         var debugCtx = $"{typeName}";
         A11yOut.Speak(A11yText, debugCtx);
