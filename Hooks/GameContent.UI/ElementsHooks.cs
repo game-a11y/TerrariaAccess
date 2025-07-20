@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria;
 using Terraria.GameContent.UI.Elements;
 using Terraria.UI;
 using TerrariaAccess.Hooks.Terraria;
@@ -85,10 +81,21 @@ public class ElementsHooks : Hook
         LogObject(self);
     }
 
+    /* Select Player:
+     *  UICharacterSelect.SetupGamepadPoints():
+     *    UIImageButton x5
+     *      Play; Favorite; Cloud; Rename;    Delete
+     */
     public static void UIImageButton_MouseOver(On_UIImageButton.orig_MouseOver orig,
         UIImageButton self, UIMouseEvent evt)
     {
-        LogObject(self);
+        // TODO: 获取父级 UICharacterListItem 对象
+        SnapPoint snapPoint = new SnapPoint("", -1, Vector2.Zero, Vector2.Zero);
+        self.GetSnapPoint(out snapPoint);
+        var A11yText = $"{snapPoint.Name}";
+        var typeName = self.GetType().Name;
+        var debugCtx = $"{typeName}";
+        A11yOut.Speak(A11yText, debugCtx);
     }
 
     public static void UIHairStyleButton_MouseOver(On_UIHairStyleButton.orig_MouseOver orig,

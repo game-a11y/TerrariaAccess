@@ -24,6 +24,6 @@ public partial class Hook
 
         var typeName = obj.GetType().Name;
         var hashCode = obj.GetHashCode();
-        Logger.Debug($"{typeName}: {hashCode}");
+        Logger.Debug($"{typeName}: #{hashCode}");
     }
 }
