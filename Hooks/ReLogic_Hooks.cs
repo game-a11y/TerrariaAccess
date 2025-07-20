@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Reflection;
 using Terraria;
 using Terraria.GameContent;
+using Terraria.UI.Gamepad;
 
 namespace TerrariaAccess.Hooks;
 
@@ -49,6 +50,9 @@ public class ReLogic_Hooks : Hook
         drawStringTextCache.Clear();
     }
 
+    /// <summary>
+    /// Hook 了 Main.spriteBatch.DrawString，主要用于绘制菜单文本。
+    /// </summary>
     static void HookDrawString_string()
     {
         try
@@ -156,6 +160,9 @@ public class ReLogic_Hooks : Hook
             Logger.Debug($"DrawString: '{text}'" +
                 $"\n\t at ({position.X:F1}, {position.Y:F1}), O=({origin.X:F1}, {origin.Y:F1})" +
                 $" scale={scale:F2} color={color}");
+            //var cnt = GamepadMainMenuHandler.MenuItemPositions.Count;
+            //Logger.Debug($"menuMode={Main.menuMode}, focusMenu={Main_Hook.GetFocusMenu()}," +
+            //    $"MenuItemPositions={cnt}");
         }
 
         // 调用原始方法
@@ -179,13 +186,54 @@ public class ReLogic_Hooks : Hook
         }
         var textCache = drawStringTextCache[menuNode];
         if (textCache.Contains(text)) return false;
+        if (UpdateTextCache(text)) return false;
 
+        // Add to cache
         textCache.Add(text);
         buttonNamesCache[menuNode].Add(text);
         // 状态合法性检查 
         Debug.Assert(textCache.Count == buttonNamesCache[menuNode].Count,
             $"Text cache count mismatch for menu {menuNode}: {textCache.Count} vs {buttonNamesCache[menuNode].Count}");
         return true;
+    }
+
+    /// <summary>
+    /// 当修改设置项时，重新构建缓存。
+    /// 检查当前焦点按钮的名称是否与传入的文本不同。
+    /// </summary>
+    /// <param name="newBtnName"></param>
+    /// <returns></returns>
+    static bool UpdateTextCache(string newBtnName)
+    {
+        int menuPageId = Main.menuMode;
+        bool HasMenuPage = buttonNamesCache.ContainsKey(menuPageId);
+        // 检查【菜单页】缓存是否存在
+        if (!HasMenuPage) return false;
+
+        int menuBtnIndex = GamepadMainMenuHandler.MenuItemPositions.Count;
+        bool GoodBtnIndex = menuBtnIndex >= 0 && menuBtnIndex < buttonNamesCache[menuPageId].Count;
+        // 检查【菜单按钮】缓存是否存在
+        if (!GoodBtnIndex) return false;
+
+        // TODO: 处理特殊的 menuPageId
+        var pageTextCache = drawStringTextCache[menuPageId];
+        var buttonCache = buttonNamesCache[menuPageId];
+        var curBtnName = buttonCache[menuBtnIndex];
+        // 缓存项与更新文本不一致
+        if (curBtnName != newBtnName)
+        {
+            // TODO: 检查是否有公共前缀
+            // 替换缓存
+            pageTextCache.Remove(curBtnName);
+            pageTextCache.Add(newBtnName);
+            buttonCache[menuBtnIndex] = newBtnName;
+            Logger.Info($"'{newBtnName}' <- '{curBtnName}'" +
+                $"\n\tDrawString:UpdateTextCache: #{menuBtnIndex+1}, menuPageId={menuPageId}");
+            return true;
+        }
+
+        // 默认新增缓存项，而不是替换。
+        return false;
     }
 
 }
