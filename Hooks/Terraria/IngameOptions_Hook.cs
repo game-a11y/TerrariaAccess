@@ -58,7 +58,9 @@ public class IngameOptions_Hook : Hook
             .GetValue(null) as string;
         if (mouseOverText != null)
         {
-            Logger.Debug($"IngameOptions.MouseOver: {mouseOverText}");
+            var a11yText = mouseOverText;
+            var debugCtx = $"IngameOptions.MouseOver:";
+            A11yOut.Speak(a11yText, debugCtx);
         }
 
         orig();
@@ -75,7 +77,9 @@ public class IngameOptions_Hook : Hook
             cacheParams(txt, i, anchor, offset);
             if (isFirstHover)
             {
-                Logger.Debug($"IngameOptions.DrawLeftSide: {txt}");
+                var a11yText = txt;
+                var debugCtx = $"IngameOptions.DrawLeftSide:";
+                A11yOut.Speak(a11yText, debugCtx);
             }
         }
         return ret;
@@ -92,7 +96,9 @@ public class IngameOptions_Hook : Hook
             cacheParams(txt, i, anchor, offset);
             if (isFirstHover)
             {
-                Logger.Debug($"IngameOptions.DrawRightSide: {txt}");
+                var a11yText = txt;
+                var debugCtx = $"IngameOptions.DrawRightSide:";
+                A11yOut.Speak(a11yText, debugCtx);
             }
         }
         return ret;
@@ -108,7 +114,9 @@ public class IngameOptions_Hook : Hook
         // NOTE: Cache here, not outside if
         if (ret && cacheParams(txt, i, Vector2.Zero, Vector2.Zero, scale))
         {
-            Logger.Debug($"IngameOptions.DrawValue: {txt}");
+            var a11yText = txt;
+            var debugCtx = $"IngameOptions.DrawValue:";
+            A11yOut.Speak(a11yText, debugCtx);
         }
         return ret;
     }

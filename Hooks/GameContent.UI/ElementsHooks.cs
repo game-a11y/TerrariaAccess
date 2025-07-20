@@ -17,14 +17,15 @@ public class ElementsHooks : Hook
         EmoteButton self, UIMouseEvent evt)
     {
         string a11yText = "";
-        //a11yText = $"#{self.GetHashCode()}";  // DEBUG
+        a11yText = $"#{self.GetHashCode()}";  // DEBUG
         var mouseTextCache = Main_Hook.GetMouseTextCache();
         if (!String.IsNullOrEmpty(mouseTextCache.cursorText))
         {
             a11yText = $"{mouseTextCache.cursorText}";
         }
         var typeName = self.GetType().Name;
-        Logger.Debug($"{typeName}: {a11yText}");
+        var debugCtx = $"{typeName}: ";
+        A11yOut.Speak(a11yText, debugCtx);
 
         // 调用原始方法
         orig(self, evt);
@@ -50,7 +51,8 @@ public class ElementsHooks : Hook
             $"{Achievement.Category}" +
             $", {Achievement.FriendlyName}, {Achievement.Description}" +
             $" ({IsCompleted})";
-        Logger.Debug($"{typeName}: {a11yText}");
+        var debugCtx = $"{typeName}: ";
+        A11yOut.Speak(a11yText, debugCtx);
     }
 
     public static void UICharacterListItem_MouseOver(On_UICharacterListItem.orig_MouseOver orig,
@@ -175,17 +177,5 @@ public class ElementsHooks : Hook
             var typeName = self.GetType().Name;
             Logger.Debug($"{typeName}: {A11yText}");
         }
-    }
-
-    public static void UITextPanel_MouseOverHook(UITextPanel<string> self, UIMouseEvent evt)
-    {
-        // UITextPanel<string> 的 Text 属性是 public 的
-        var typeName = self.GetType().Name;
-        var text = self.Text;
-        if (String.IsNullOrEmpty(text))
-        {
-            text = "";
-        }
-        Logger.Debug($"{typeName}: {text}");
     }
 }

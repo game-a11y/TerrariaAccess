@@ -133,8 +133,8 @@ public class ItemSlot_Hook : Hook
 
         /* Gen A11y Text */
         var typeName = typeof(ItemSlot).Name;
-        var A11yText = $"{typeName}: {slotName}";
-        A11yText += " (";
+        var A11yText = $"{slotName}";
+        var debugCtx = $"{typeName}: ";
         {
             var invArrPtr = "";
             if (inv == null)
@@ -146,12 +146,11 @@ public class ItemSlot_Hook : Hook
                 invArrPtr = $"Item[{inv.Length}] (#{inv.GetHashCode()})";
             }
             //A11yText += $"{invArrPtr}";  // DEBUG
-            A11yText += $", context={context}, slot={slotId}";
-            A11yText += $", type={slotType}, stack={slotStack}";
+            debugCtx += $", context={context}, slot={slotId}";
+            debugCtx += $", type={slotType}, stack={slotStack}";
         }
-        A11yText += ")";
 
-        Logger.Debug($"{A11yText}");
+        A11yOut.Speak(A11yText, debugCtx);
         orig(inv, context, slotId);
     }
 }

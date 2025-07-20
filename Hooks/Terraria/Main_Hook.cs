@@ -2,8 +2,6 @@
 using System;
 using System.Reflection;
 using Terraria;
-using Terraria.ID;
-using TerrariaAccess.Hooks.ModLoader.UI;
 
 namespace TerrariaAccess.Hooks.Terraria;
 
@@ -123,9 +121,8 @@ public class Main_Hook : Hook
         if (shouldOutput)
         {
             var a11yText = text;
-            var debugText = string.Empty;
-            debugText = $"\n\t(InGame) DrawSettingButton";
-            Logger.Debug($"{a11yText}{debugText}");
+            var debugText = $"DrawSettingButton(InGame)";
+            A11yOut.Speak(a11yText, debugText);
         }
     }
 
@@ -165,13 +162,13 @@ public class Main_Hook : Hook
 
                 // 通过缓存获取菜单名称
                 buttonName = ReLogic_Hooks.GetButtonName(preMenuMode, focusMenu);
-                var debugText = string.Empty;
-                debugText = $"\n\tMain.DrawMenu: " +
+                var a11yText = buttonName;
+                var debugText = $"Main.DrawMenu: " +
                     $"focus={focusMenu}" +
                     $", MenuMode: {preMenuMode} -> {postMenuMode}" +
                     $", SelectedMenu={preSelectedMenu};";
-                Logger.Debug($"{buttonName}{debugText}");
                 //Logger.Debug($"preChangeTheTitle={preChangeTheTitle}");
+                A11yOut.Speak(a11yText, debugText);
             }
         }
     }

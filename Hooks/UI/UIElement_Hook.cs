@@ -35,9 +35,10 @@ public class UIElement_Hook : Hook
         var textProperty = self.GetType().GetProperty("Text");
         if (textProperty != null)
         {
+            var a11yText = textProperty.GetValue(self)?.ToString();
             var typeName = self.GetType().Name;
-            var textValue = textProperty.GetValue(self)?.ToString();
-            Logger.Debug($"{typeName}({textValue})");
+            string debugCtx = $"UIElement.MouseOver: {typeName}";
+            A11yOut.Speak(a11yText, debugCtx);
         }
 
         // 调用原始方法
@@ -53,13 +54,13 @@ public class UIElement_Hook : Hook
     private static void UIToggleImage_MouseOverHook(UIToggleImage self, UIMouseEvent evt)
     {
         var typeName = self.GetType().Name;
-        var a11yText = "";
         var isOn = self.IsOn ? "On" : "Off";
-        var metaInfo = self.GetHashCode();
+        var objHash = self.GetHashCode();
         // TODO: 获取提示文字
-        Logger.Debug($"{typeName}({a11yText}): {isOn}, #{metaInfo}");
+        var a11yText = $"'#{objHash}' {isOn}";
+        var debugCtx = $"{typeName}: ";
+        A11yOut.Speak(a11yText, debugCtx);
     }
-
 
     private static void Main_DrawInterface_39_MouseOverHook(On_Main.orig_DrawInterface_39_MouseOver orig, Main self)
     {
