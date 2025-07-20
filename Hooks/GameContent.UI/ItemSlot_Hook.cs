@@ -111,12 +111,13 @@ public class ItemSlot_Hook : Hook
 
         /* Get Slot info */
         // TODO: Main.hoverItemName
+        Item slot = null;
         var slotName = "";
         var slotType = 0;
         var slotStack = 0;
         if (inv != null && inv.Length > slotId && slotId >= 0)
         {
-            var slot = inv[slotId];
+            slot = inv[slotId];
             bool nullSlot = slot == null;
             bool emptySlot = nullSlot || (slot.type == 0 && slot.stack == 0);
             if (emptySlot)
@@ -134,6 +135,10 @@ public class ItemSlot_Hook : Hook
         /* Gen A11y Text */
         var typeName = typeof(ItemSlot).Name;
         var A11yText = $"{slotName}";
+        if (slot != null)
+        {
+            A11yText = slot.HoverName;
+        }
         var debugCtx = $"{typeName}: ";
         {
             var invArrPtr = "";
@@ -145,7 +150,7 @@ public class ItemSlot_Hook : Hook
             {
                 invArrPtr = $"Item[{inv.Length}] (#{inv.GetHashCode()})";
             }
-            //A11yText += $"{invArrPtr}";  // DEBUG
+            //debugCtx += $"{invArrPtr}";  // DEBUG
             debugCtx += $", context={context}, slot={slotId}";
             debugCtx += $", type={slotType}, stack={slotStack}";
         }
