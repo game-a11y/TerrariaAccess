@@ -49,6 +49,8 @@ public class ElementsHooks : Hook
             $" ({IsCompleted})";
         var debugCtx = $"{typeName}: ";
         A11yOut.Speak(a11yText, debugCtx);
+
+        orig(self, evt);
     }
 
     /* Select Player:
@@ -65,30 +67,40 @@ public class ElementsHooks : Hook
             Data.Player.difficulty, Data.GetPlayTime()
          */
         LogObject(self);
+
+        orig(self, evt);
     }
 
     public static void UICharacterNameButton_MouseOver(On_UICharacterNameButton.orig_MouseOver orig,
         UICharacterNameButton self, UIMouseEvent evt)
     {
         LogObject(self);
+
+        orig(self, evt);
     }
 
     public static void UIClothStyleButton_MouseOver(On_UIClothStyleButton.orig_MouseOver orig,
         UIClothStyleButton self, UIMouseEvent evt)
     {
         LogObject(self);
+
+        orig(self, evt);
     }
 
     public static void UIColoredImageButton_MouseOver(On_UIColoredImageButton.orig_MouseOver orig,
         UIColoredImageButton self, UIMouseEvent evt)
     {
         LogObject(self);
+
+        orig(self, evt);
     }
 
     public static void UIDifficultyButton_MouseOver(On_UIDifficultyButton.orig_MouseOver orig,
         UIDifficultyButton self, UIMouseEvent evt)
     {
         LogObject(self);
+
+        orig(self, evt);
     }
 
     /* Select Player:
@@ -106,48 +118,64 @@ public class ElementsHooks : Hook
         var typeName = self.GetType().Name;
         var debugCtx = $"{typeName}";
         A11yOut.Speak(A11yText, debugCtx);
+
+        orig(self, evt);
     }
 
     public static void UIHairStyleButton_MouseOver(On_UIHairStyleButton.orig_MouseOver orig,
         UIHairStyleButton self, UIMouseEvent evt)
     {
         LogObject(self);
+
+        orig(self, evt);
     }
 
     public static void UIIconTextButton_MouseOver(On_UIIconTextButton.orig_MouseOver orig,
         UIIconTextButton self, UIMouseEvent evt)
     {
         LogObject(self);
+
+        orig(self, evt);
     }
 
     public static void UIResourcePack_MouseOver(On_UIResourcePack.orig_MouseOver orig,
         UIResourcePack self, UIMouseEvent evt)
     {
         LogObject(self);
+
+        orig(self, evt);
     }
 
     public static void UIWorkshopImportWorldListItem_MouseOver(On_UIWorkshopImportWorldListItem.orig_MouseOver orig,
         UIWorkshopImportWorldListItem self, UIMouseEvent evt)
     {
         LogObject(self);
+
+        orig(self, evt);
     }
 
     public static void UIWorkshopPublishResourcePackListItem_MouseOver(On_UIWorkshopPublishResourcePackListItem.orig_MouseOver orig,
         UIWorkshopPublishResourcePackListItem self, UIMouseEvent evt)
     {
         LogObject(self);
+
+        orig(self, evt);
     }
 
     public static void UIWorkshopPublishWorldListItem_MouseOver(On_UIWorkshopPublishWorldListItem.orig_MouseOver orig,
         UIWorkshopPublishWorldListItem self, UIMouseEvent evt)
     {
         LogObject(self);
+
+        orig(self, evt);
     }
 
     public static void UIWorldListItem_MouseOver(On_UIWorldListItem.orig_MouseOver orig,
         UIWorldListItem self, UIMouseEvent evt)
     {
         LogObject(self);
+
+        orig(self, evt);
     }
 
     public class UIKeybindingListItemHooks
