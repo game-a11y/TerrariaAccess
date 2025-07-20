@@ -51,9 +51,19 @@ public class ElementsHooks : Hook
         A11yOut.Speak(a11yText, debugCtx);
     }
 
+    /* Select Player:
+     * 
+     * TODO: Hook private:  RenameMouseOver, FavoriteMouseOver, CloudMouseOver, PlayMouseOver, DeleteMouseOver
+     * 
+     */
     public static void UICharacterListItem_MouseOver(On_UICharacterListItem.orig_MouseOver orig,
         UICharacterListItem self, UIMouseEvent evt)
     {
+        /*
+            Data.Name
+            Data.Player.statLifeMax2, Data.Player.statManaMax2,
+            Data.Player.difficulty, Data.GetPlayTime()
+         */
         LogObject(self);
     }
 

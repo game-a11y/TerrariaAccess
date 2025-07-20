@@ -11,6 +11,12 @@ using TerrariaAccess.Hooks.UI;
 
 namespace TerrariaAccess;
 
+/*
+ TODO:
+    - 菜单设置 滑块
+    - 菜单设施特殊的 menuPageId
+ 
+ */
 public class UIHookMod : ModSystem
 {
     public static ILog Logger = LogManager.GetLogger("TerrariaAccess");
