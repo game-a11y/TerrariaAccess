@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using MonoMod.Cil;
 using System;
 using System.Reflection;
 using Terraria;
@@ -27,6 +28,10 @@ public class Main_Hook : Hook
         public int hackedScreenHeight;
         public string buffTooltip;
     }
+    /// <summary>
+    /// 用于存储buttonNames的引用
+    /// </summary>
+    public static string[] ButtonNames { get; private set; }
 
     /**
      * public static Main instance;
@@ -171,5 +176,56 @@ public class Main_Hook : Hook
                 A11yOut.Speak(a11yText, debugText);
             }
         }
+    }
+
+    /// <summary>
+    /// ILHook 以获取 Main.DrawMenu() 中的 array9 (buttonNames) 数组
+    /// </summary>
+    /// <param name="il"></param>
+    public static void DrawMenuIL_array9(ILContext il)
+    {
+        var cursor = new ILCursor(il);
+
+        int array9Index = -1;
+        /* 
+            // 	string[] array9 = new string[Main.maxMenuItems];
+            IL_0976: ldsfld int32 Terraria.Main::maxMenuItems
+            IL_097b: newarr [System.Runtime]System.String
+            IL_0980: stloc.s 26
+         */
+        bool preSuccess = cursor.TryGotoNext(MoveType.After,
+            x => x.MatchLdsfld(typeof(Main), "maxMenuItems"),
+            x => x.MatchNewarr<string>(),
+            x => x.MatchStloc(out array9Index));
+        int constM1 = 0;
+        ILLabel IL_0990;
+        /*
+            // 	if (Main.menuMode == -1)
+            IL_0982: ldsfld int32 Terraria.Main::menuMode
+            IL_0987: ldc.i4.m1
+            IL_0988: bne.un.s IL_0990
+         */
+        bool postSuccess = cursor.TryGotoNext(MoveType.Before,
+            x => x.MatchLdsfld(typeof(Main), "menuMode"),        
+            x => x.MatchLdcI4(out constM1),                   
+            x => x.MatchBneUn(out IL_0990));
+
+        bool validIndexes = array9Index != -1 && constM1 == -1;
+
+        if (!preSuccess || !postSuccess || !validIndexes)
+        {
+            Logger.Warn("Failed to IL edit Main.DrawMenu");
+            return;
+        }
+
+        //Logger.Debug(il.ToString());  // dump 整个 IL
+        Logger.Debug($"array9Index = {array9Index}");
+
+        //// 插入代码来捕获buttonNames
+        //cursor.Emit(OpCodes.Ldloc, array9Index);
+        //cursor.EmitDelegate<Action<string[]>>(buttonNames => {
+        //    // 保存引用
+        //    ButtonNames = buttonNames;
+        //});
     }
 }

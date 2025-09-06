@@ -23,6 +23,9 @@ public class UIHookMod : ModSystem
 
     public override void Load()
     {
+        /* MonoMod IL Hooks*/
+        IL_Main.DrawMenu += Main_Hook.DrawMenuIL_array9;
+
         /* ReLogic Hooks */
         ReLogic_Hooks.Initialize();
         /* Terraria.ModLoader.UI.Interface */
