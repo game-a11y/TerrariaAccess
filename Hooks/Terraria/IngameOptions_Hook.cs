@@ -71,16 +71,12 @@ public class IngameOptions_Hook : Hook
         float[] scales, float minscale, float maxscale, float scalespeed)
     {
         bool ret = orig(sb, txt, i, anchor, offset, scales, minscale, maxscale, scalespeed);
-        if (ret)
+        // NOTE: Cache here, not outside if
+        if (ret && cacheParams(txt, i, anchor, offset))
         {
-            // NOTE: Cache here, not outside if
-            cacheParams(txt, i, anchor, offset);
-            if (isFirstHover)
-            {
-                var a11yText = txt;
-                var debugCtx = $"IngameOptions.DrawLeftSide:";
-                A11yOut.Speak(a11yText, debugCtx);
-            }
+            var a11yText = $"{txt} #{i+1}";
+            var debugCtx = $"IngameOptions.DrawLeftSide: idx={i}";
+            A11yOut.Speak(a11yText, debugCtx);
         }
         return ret;
     }
@@ -90,16 +86,12 @@ public class IngameOptions_Hook : Hook
         float scale, float colorScale, Color over)
     {
         bool ret = orig(sb, txt, i, anchor, offset, scale, colorScale, over);
-        if (ret)
+        // NOTE: Cache here, not outside if
+        if (ret && cacheParams(txt, i, anchor, offset))
         {
-            // NOTE: Cache here, not outside if
-            cacheParams(txt, i, anchor, offset);
-            if (isFirstHover)
-            {
-                var a11yText = txt;
-                var debugCtx = $"IngameOptions.DrawRightSide:";
-                A11yOut.Speak(a11yText, debugCtx);
-            }
+            var a11yText = txt;
+            var debugCtx = $"IngameOptions.DrawRightSide: idx={i}";
+            A11yOut.Speak(a11yText, debugCtx);
         }
         return ret;
     }
@@ -115,7 +107,7 @@ public class IngameOptions_Hook : Hook
         if (ret && cacheParams(txt, i, Vector2.Zero, Vector2.Zero, scale))
         {
             var a11yText = txt;
-            var debugCtx = $"IngameOptions.DrawValue:";
+            var debugCtx = $"IngameOptions.DrawValue: idx={i}";
             A11yOut.Speak(a11yText, debugCtx);
         }
         return ret;
