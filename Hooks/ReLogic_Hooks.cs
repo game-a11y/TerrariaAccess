@@ -8,9 +8,13 @@ using System.Reflection;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.UI.Gamepad;
+using TerrariaAccess.Hooks.Terraria;
 
 namespace TerrariaAccess.Hooks;
 
+/// <summary>
+/// Hook 了 Main.spriteBatch.DrawString 函数，用于获取当前绘制的文本
+/// </summary>
 public class ReLogic_Hooks : Hook
 {
     private static MonoMod.RuntimeDetour.Hook drawStringHook;
@@ -32,6 +36,10 @@ public class ReLogic_Hooks : Hook
         {
             int totalCount = buttonNamesCache[menuNode].Count;
             var buttonName = buttonNamesCache[menuNode][index];
+
+            // DEV: 记录直接获取的局部变量
+            var rtName = Main_Hook.ButtonNames[index];
+            Logger.Info($"ButtonNames[{index}] = {rtName}");
             return $"{buttonName} {index+1}/{totalCount}";
         }
         return string.Empty;
@@ -121,16 +129,16 @@ public class ReLogic_Hooks : Hook
     {
         /* Main.cs:DrawMenu()
 
-         	```cs
+            ```cs
             if (!array8[num98]) {
-				Main.spriteBatch.DrawString(FontAssets.DeathText.Value, array9[num98],
-				    new Vector2(num3+num105+array5[num98], (num2+num4*num98+num106)+origin.Y*array7[num98]+array4[num98]),
-				    color12,  0f,  origin, num107,  SpriteEffects.None, 0f);
-			} else {
-				Main.spriteBatch.DrawString(FontAssets.DeathText.Value, array9[num98],
-				    new Vector2(num3+num105+array5[num98], (num2+num4*num98+num106)+origin.Y*array7[num98]+array4[num98]),
-				    color12,  0f,  new Vector2(0f, origin.Y), num107,  SpriteEffects.None, 0f);
-			}
+                Main.spriteBatch.DrawString(FontAssets.DeathText.Value, array9[num98],
+                    new Vector2(num3+num105+array5[num98], (num2+num4*num98+num106)+origin.Y*array7[num98]+array4[num98]),
+                    color12,  0f,  origin, num107,  SpriteEffects.None, 0f);
+            } else {
+                Main.spriteBatch.DrawString(FontAssets.DeathText.Value, array9[num98],
+                    new Vector2(num3+num105+array5[num98], (num2+num4*num98+num106)+origin.Y*array7[num98]+array4[num98]),
+                    color12,  0f,  new Vector2(0f, origin.Y), num107,  SpriteEffects.None, 0f);
+            }
             ```
 
             ## NOTE
@@ -227,6 +235,12 @@ public class ReLogic_Hooks : Hook
             pageTextCache.Remove(curBtnName);
             pageTextCache.Add(newBtnName);
             buttonCache[menuBtnIndex] = newBtnName;
+            // 特殊处理
+            //  1213=语言选择；26=音量
+            if (menuPageId == 1213 || menuPageId == 26)
+            {
+                return true;
+            }
             Logger.Info($"'{newBtnName}' <- '{curBtnName}'" +
                 $"\n\tDrawString:UpdateTextCache: #{menuBtnIndex+1}, menuPageId={menuPageId}");
             return true;
