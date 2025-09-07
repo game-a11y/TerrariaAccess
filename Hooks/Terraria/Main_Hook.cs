@@ -162,53 +162,49 @@ public class Main_Hook : Hook
     public static void DrawMenu(On_Main.orig_DrawMenu orig,
         Main self, GameTime gameTime)
     {
-        var newFocusMenu = GetFocusMenu();
-        var isFocusMenuChanged = lastFoucusMenu != newFocusMenu;
-        if (isFocusMenuChanged)
-        {
-            //Logger.Debug($"isFocusMenuChanged: {lastFoucusMenu}, {newFocusMenu}");
-            lastFoucusMenu = newFocusMenu;
-        }
-
+        var curFocusMenu = GetFocusMenu();
         var preMenuMode = Main.menuMode;
-        var preChangeTheTitle = Main.changeTheTitle;
-        var preSelectedMenu = GetSelectedMenu();
-        var preMenuName = GetButtonName(preMenuMode, newFocusMenu);
+        var preMenuName = GetButtonName(preMenuMode, curFocusMenu);
 
-        orig(self, gameTime);
+        orig(self, gameTime);  // 执行原始方法
 
         var postMenuMode = Main.menuMode;
-        var postChangeTheTitle = Main.changeTheTitle;
-        var postSelectedMenu = GetSelectedMenu();
-        var focusMenu = GetFocusMenu();
-        var postMenuName = GetButtonName(postMenuMode, focusMenu);
+        var postMenuName = GetButtonName(postMenuMode, curFocusMenu);
 
         if (preMenuMode >= 0 && postMenuMode >= 0)
         {
-            var a11yText = "";
-            var debugText = $"Main.DrawMenu: " +
-                $"focus={focusMenu}" +
-                $", MenuMode: {preMenuMode} -> {postMenuMode}" +
-                $", SelectedMenu={preSelectedMenu};";
+            String a11yText = "";
+            String debugText = $"Main.DrawMenu: ";
 
-            // 切换菜单项
-            if (isFocusMenuChanged)
+            /* 切换菜单项 */
+            bool isFocusMenuChanged = lastFoucusMenu != curFocusMenu;
+            var OldFoucusMenu = lastFoucusMenu;
+            lastFoucusMenu = curFocusMenu;
+            bool isMenuModeChanged = preMenuMode != postMenuMode;
+            if (isMenuModeChanged || isFocusMenuChanged)
             {
+                debugText += isMenuModeChanged ? 
+                    $"MenuMode: {postMenuMode} <- {preMenuMode}" : 
+                    $"MenuMode={postMenuMode}";
+                debugText += isFocusMenuChanged ?
+                    $", focus: {curFocusMenu} <- {OldFoucusMenu}" :
+                    $", focus={curFocusMenu}";
+
                 //a11yText = ReLogic_Hooks.GetButtonName(preMenuMode, focusMenu);  // 旧版获取方法
                 a11yText = postMenuName;
+                // TODO: 特殊处理场景切换 postMenuMode=888 or curFocusMenu=-1
                 A11yOut.Speak(a11yText, debugText);
                 return;
             }
 
-            // 当前菜单项更新（修改设置项）
-            if (preMenuName != postMenuName)
+            /* 当前菜单项更新（修改设置项） */
+            bool goodMenuName = !string.IsNullOrEmpty(preMenuName) && !string.IsNullOrEmpty(postMenuName);
+            bool isMenuNameChanged = preMenuName != postMenuName;
+            if (goodMenuName && isMenuNameChanged)
             {
                 a11yText = postMenuName;
-                debugText = $"Main.DrawMenu: " +
-                    $"MenuMode={postMenuMode}" +
-                    $", focus={focusMenu}" +
-                    $", SelectedMenu={preSelectedMenu}" +
-                    $", preMenuName={preMenuName};";
+                debugText += $"MenuMode={postMenuMode}, focus={curFocusMenu}" +
+                    $", ^^^preMenuName={preMenuName}";
                 A11yOut.Speak(a11yText, debugText);
                 return;
             }
