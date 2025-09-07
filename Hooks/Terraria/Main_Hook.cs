@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
+using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using System;
+using System.Linq;
 using System.Reflection;
 using Terraria;
 
@@ -32,6 +34,32 @@ public class Main_Hook : Hook
     /// 用于存储buttonNames的引用
     /// </summary>
     public static string[] ButtonNames { get; private set; }
+
+    /// <summary>
+    /// 获取当前的按钮名称
+    /// </summary>
+    /// <param name="menuMode">菜单模式</param>
+    /// <param name="buttonIndex">按钮索引</param>
+    /// <returns></returns>
+    static String GetButtonName(int menuMode, int buttonIndex)
+    {
+        bool isBadButtonNames = ButtonNames == null || ButtonNames.Length == 0;
+        bool isBadButtonIndex = buttonIndex < 0 || buttonIndex >= ButtonNames.Length;
+        if (isBadButtonNames || isBadButtonIndex)
+        {
+            return String.Empty;
+        }
+
+        String btnName = ButtonNames[buttonIndex];
+        int totalBtnCount = ButtonNames.Count(s => !string.IsNullOrEmpty(s));
+
+        /* 序号特殊处理
+            MenuMode：
+                28=视差；26=音量；25=光标颜色；252=边框颜色；
+                1213=语言选择；第一个为空
+         */
+        return $"{btnName} {buttonIndex+1}/{totalBtnCount}";
+    }
 
     /**
      * public static Main instance;
@@ -158,15 +186,10 @@ public class Main_Hook : Hook
             if (isFocusMenuChanged)
             {
                 var buttonName = "";
-                // NOTE: Interface_Hook.buttonNames 仅在“主菜单”和“TML菜单”生成时才会被更新
-                // TODO: 目前仅支持主菜单，次级菜单还有问题
-                //if (focusMenu >= 0 && Interface_Hook.buttonNames.Length > focusMenu)
-                //{
-                //    buttonName = Interface_Hook.buttonNames[focusMenu];
-                //}
 
                 // 通过缓存获取菜单名称
-                buttonName = ReLogic_Hooks.GetButtonName(preMenuMode, focusMenu);
+                //buttonName = ReLogic_Hooks.GetButtonName(preMenuMode, focusMenu);  // 旧版获取方法
+                buttonName = GetButtonName(preMenuMode, focusMenu);
                 var a11yText = buttonName;
                 var debugText = $"Main.DrawMenu: " +
                     $"focus={focusMenu}" +
@@ -221,11 +244,11 @@ public class Main_Hook : Hook
         //Logger.Debug(il.ToString());  // dump 整个 IL
         Logger.Debug($"array9Index = {array9Index}");
 
-        //// 插入代码来捕获buttonNames
-        //cursor.Emit(OpCodes.Ldloc, array9Index);
-        //cursor.EmitDelegate<Action<string[]>>(buttonNames => {
-        //    // 保存引用
-        //    ButtonNames = buttonNames;
-        //});
+        /// 插入代码来捕获并保存 buttonNames
+        cursor.Emit(OpCodes.Ldloc, array9Index);
+        cursor.EmitDelegate<Action<string[]>>(buttonNames =>
+        {
+            ButtonNames = buttonNames;
+        });
     }
 }

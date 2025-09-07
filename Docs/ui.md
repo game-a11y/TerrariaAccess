@@ -7,6 +7,9 @@ Terraria.GameContent.UI.GameTipsDisplay
 
 ## 主菜单
 
+- 允许实时修改菜单项后，输出修改后的选项
+- 支持音量等滑块输出
+
 Interface.AddMenuButtons
 Interface.ModLoaderMenus
 
