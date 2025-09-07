@@ -57,9 +57,14 @@ Main.ManageControlsMenu
 ### 制作人员
 UI.Credits
 
+CreditsRollComposer.PlaySegment_TextRoll
+
 ### 退出
 
 ## 游戏中
 
 ### 设置 Settings
+
+- 游戏内按钮实时输出
+
 DrawSettingButton()
