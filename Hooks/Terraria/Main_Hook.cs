@@ -173,6 +173,7 @@ public class Main_Hook : Hook
         var preMenuMode = Main.menuMode;
         var preChangeTheTitle = Main.changeTheTitle;
         var preSelectedMenu = GetSelectedMenu();
+        var preMenuName = GetButtonName(preMenuMode, newFocusMenu);
 
         orig(self, gameTime);
 
@@ -180,23 +181,36 @@ public class Main_Hook : Hook
         var postChangeTheTitle = Main.changeTheTitle;
         var postSelectedMenu = GetSelectedMenu();
         var focusMenu = GetFocusMenu();
+        var postMenuName = GetButtonName(postMenuMode, focusMenu);
 
         if (preMenuMode >= 0 && postMenuMode >= 0)
         {
+            var a11yText = "";
+            var debugText = $"Main.DrawMenu: " +
+                $"focus={focusMenu}" +
+                $", MenuMode: {preMenuMode} -> {postMenuMode}" +
+                $", SelectedMenu={preSelectedMenu};";
+
+            // 切换菜单项
             if (isFocusMenuChanged)
             {
-                var buttonName = "";
-
-                // 通过缓存获取菜单名称
-                //buttonName = ReLogic_Hooks.GetButtonName(preMenuMode, focusMenu);  // 旧版获取方法
-                buttonName = GetButtonName(preMenuMode, focusMenu);
-                var a11yText = buttonName;
-                var debugText = $"Main.DrawMenu: " +
-                    $"focus={focusMenu}" +
-                    $", MenuMode: {preMenuMode} -> {postMenuMode}" +
-                    $", SelectedMenu={preSelectedMenu};";
-                //Logger.Debug($"preChangeTheTitle={preChangeTheTitle}");
+                //a11yText = ReLogic_Hooks.GetButtonName(preMenuMode, focusMenu);  // 旧版获取方法
+                a11yText = postMenuName;
                 A11yOut.Speak(a11yText, debugText);
+                return;
+            }
+
+            // 当前菜单项更新（修改设置项）
+            if (preMenuName != postMenuName)
+            {
+                a11yText = postMenuName;
+                debugText = $"Main.DrawMenu: " +
+                    $"MenuMode={postMenuMode}" +
+                    $", focus={focusMenu}" +
+                    $", SelectedMenu={preSelectedMenu}" +
+                    $", preMenuName={preMenuName};";
+                A11yOut.Speak(a11yText, debugText);
+                return;
             }
         }
     }
